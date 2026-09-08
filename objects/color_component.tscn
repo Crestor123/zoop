@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://0v57e6ojg36b"]
+
+[ext_resource type="Script" uid="uid://dhcp22sti57t5" path="res://objects/color_component.gd" id="1_wobjv"]
+[ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="2_rqydn"]
+[ext_resource type="Texture2D" uid="uid://bo36n1yc0lhjh" path="res://assets/palettes/zoop-green-palette.png" id="3_qkxl1"]
+[ext_resource type="Texture2D" uid="uid://cnqbyr8spxotx" path="res://assets/palettes/zoop-orange-palette.png" id="4_tfe8r"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sm3li"]
+load_path = "res://.godot/imported/zoop-blue-palette.png-03a0501654d4a0d397ce7311309a5a3a.ctex"
+
+[node name="ColorComponent" type="Node" unique_id=1685259152]
+script = ExtResource("1_wobjv")
+blockColorRegion = Dictionary[int, Texture2D]({
+0: ExtResource("3_qkxl1"),
+1: SubResource("CompressedTexture2D_sm3li"),
+2: ExtResource("2_rqydn"),
+3: ExtResource("4_tfe8r")
+})

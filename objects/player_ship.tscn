@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bsvq0ka6plkmr"]
+
+[ext_resource type="Script" uid="uid://2epa2hj7se14" path="res://objects/player_ship.gd" id="1_qs0r5"]
+[ext_resource type="Shader" uid="uid://csejqfo4fckkn" path="res://assets/palettes/palette_swap.tres" id="2_4ahvn"]
+[ext_resource type="Texture2D" uid="uid://u680ldrioe65" path="res://assets/zoop-ship-2.png" id="2_e37u2"]
+[ext_resource type="PackedScene" uid="uid://0v57e6ojg36b" path="res://objects/color_component.tscn" id="3_e37u2"]
+[ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="4_tgrec"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kx2u2"]
+resource_local_to_scene = true
+shader = ExtResource("2_4ahvn")
+shader_parameter/original_palette = ExtResource("4_tgrec")
+shader_parameter/new_palette = ExtResource("4_tgrec")
+shader_parameter/color_count = 4
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e37u2"]
+size = Vector2(8, 8)
+
+[node name="PlayerShip" type="Area2D" unique_id=77197193]
+process_mode = 1
+texture_filter = 1
+collision_mask = 3
+script = ExtResource("1_qs0r5")
+color = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1826084566]
+process_mode = 1
+material = SubResource("ShaderMaterial_kx2u2")
+texture = ExtResource("2_e37u2")
+region_enabled = true
+region_rect = Rect2(0, 16, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=113809477]
+shape = SubResource("RectangleShape2D_e37u2")
+
+[node name="CollisionRay" type="RayCast2D" parent="." unique_id=1529531687]
+enabled = false
+target_position = Vector2(16, 0)
+
+[node name="DashRay" type="RayCast2D" parent="." unique_id=276937106]
+enabled = false
+collision_mask = 2
+
+[node name="ColorComponent" parent="." unique_id=1685259152 node_paths=PackedStringArray("Sprite") instance=ExtResource("3_e37u2")]
+Sprite = NodePath("../Sprite2D")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,8 @@
+4 colors of blocks - Done
+Semi-transparent row / column sprites that flash when a block is incoming
+Main Menu - Done
+Pause Menu - Done
+Background changes palettes / designs
+Score - Done 
+High Scores
+Power-ups

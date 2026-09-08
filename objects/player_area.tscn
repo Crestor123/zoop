@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://ofsa343wlks6"]
+
+[ext_resource type="Script" uid="uid://bp3fk7vbm7uai" path="res://objects/player_area.gd" id="1_pktqp"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_tkl1v"]
+normal = Vector2(0, 1)
+distance = -32.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pktqp"]
+distance = -32.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7vjik"]
+normal = Vector2(1, 0)
+distance = -32.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vrqho"]
+normal = Vector2(-1, 0)
+distance = -32.0
+
+[node name="PlayerArea" type="Node2D" unique_id=1484962429]
+script = ExtResource("1_pktqp")
+
+[node name="Walls" type="Node2D" parent="." unique_id=1093010419]
+
+[node name="TopWall" type="StaticBody2D" parent="Walls" unique_id=1402489864]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall" unique_id=1435781827]
+shape = SubResource("WorldBoundaryShape2D_tkl1v")
+
+[node name="BottomWall" type="StaticBody2D" parent="Walls" unique_id=100433600]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/BottomWall" unique_id=795378827]
+shape = SubResource("WorldBoundaryShape2D_pktqp")
+
+[node name="LeftWall" type="StaticBody2D" parent="Walls" unique_id=1219688110]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall" unique_id=108330404]
+shape = SubResource("WorldBoundaryShape2D_7vjik")
+
+[node name="RightWall" type="StaticBody2D" parent="Walls" unique_id=1500750798]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall" unique_id=332453758]
+shape = SubResource("WorldBoundaryShape2D_vrqho")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2109720383]
+visible = false
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2

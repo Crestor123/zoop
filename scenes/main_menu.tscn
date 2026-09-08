@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://uq5i03ljt3uq"]
+
+[ext_resource type="Script" uid="uid://ruwagdvwv1de" path="res://scenes/main_menu.gd" id="1_l6cm7"]
+
+[node name="MainMenu" type="Control" unique_id=1837816882]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2113440795]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=990093852]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer" unique_id=1434660906]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer" unique_id=1399981017]
+layout_mode = 2
+text = "Play"
+
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
