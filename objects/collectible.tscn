@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cqgw5ab3vgs7r"]
+
+[ext_resource type="Script" uid="uid://clr6cj0j7jdum" path="res://powerup.gd" id="1_y87ni"]
+[ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_il458"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ghf1a"]
+size = Vector2(16, 16)
+
+[node name="Collectible" type="StaticBody2D" unique_id=1181025695]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_y87ni")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=8514655]
+texture = ExtResource("2_il458")
+region_enabled = true
+region_rect = Rect2(64, 16, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2074602378]
+shape = SubResource("RectangleShape2D_ghf1a")

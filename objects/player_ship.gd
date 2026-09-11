@@ -23,7 +23,7 @@ var inputs = {
 	"right" : 	Vector2.RIGHT
 }
 
-var target_block : Block
+var target_block : Collectible
 var dash_start_pos : Vector2
 var moving : bool = false
 
@@ -60,13 +60,18 @@ func dash():
 	DashRay.force_raycast_update()
 	var collider = DashRay.get_collider()
 	
-	if collider is Block:
-		if collider.color != color:
+	if collider is Collectible:
+		if collider is Powerup:
 			target_block = collider
-		else:
-			var line = collider.line
-			target_block = line.get_back_block_by_color(color)
-		moving = true
+			moving = true
+	
+		if collider is Block:
+			if collider.color != color:
+				target_block = collider
+			else:
+				var line = collider.line
+				target_block = line.get_back_block_by_color(color)
+			moving = true
 		
 		dash_start_pos = position
 		var tween = create_tween()
@@ -117,3 +122,6 @@ func _on_body_entered(body):
 			var prev_color = color
 			change_color(target_block.color)
 			target_block.change_color(prev_color)
+	if body is Powerup:
+		print("gained powerup!")
+		body.destroy()

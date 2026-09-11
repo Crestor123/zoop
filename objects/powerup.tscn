@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bdhjfvcubcbtn"]
+
+[ext_resource type="PackedScene" uid="uid://cqgw5ab3vgs7r" path="res://objects/collectible.tscn" id="1_xvoiw"]
+[ext_resource type="Script" uid="uid://dx1kisi8cjlgq" path="res://objects/powerup.gd" id="2_th7pd"]
+
+[node name="Collectible" unique_id=1181025695 instance=ExtResource("1_xvoiw")]
+script = ExtResource("2_th7pd")

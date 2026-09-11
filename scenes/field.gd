@@ -78,7 +78,8 @@ func create_block_line(dir : Vector2, pos : Vector2):
 	BlockLines.add_child(new_block_line)
 	new_block_line.direction = dir
 	new_block_line.position = pos
-	new_block_line.create_block()
+	#new_block_line.create_block()
+	new_block_line.create_powerup()
 
 func select_random_line() -> BlockLine:
 	var lines = BlockLines.get_children()

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://2epa2hj7se14" path="res://objects/player_ship.gd" id="1_qs0r5"]
 [ext_resource type="Shader" uid="uid://csejqfo4fckkn" path="res://assets/palettes/palette_swap.tres" id="2_4ahvn"]
-[ext_resource type="Texture2D" uid="uid://u680ldrioe65" path="res://assets/zoop-ship-2.png" id="2_e37u2"]
+[ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_e37u2"]
 [ext_resource type="PackedScene" uid="uid://0v57e6ojg36b" path="res://objects/color_component.tscn" id="3_e37u2"]
 [ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="4_tgrec"]
 

@@ -2,34 +2,24 @@
 
 [ext_resource type="Script" uid="uid://n1q1iq5ajyvs" path="res://objects/block.gd" id="1_lylmh"]
 [ext_resource type="Shader" uid="uid://csejqfo4fckkn" path="res://assets/palettes/palette_swap.tres" id="1_qrhrc"]
+[ext_resource type="PackedScene" uid="uid://cqgw5ab3vgs7r" path="res://objects/collectible.tscn" id="1_vdec6"]
 [ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="2_l0y18"]
 [ext_resource type="PackedScene" uid="uid://0v57e6ojg36b" path="res://objects/color_component.tscn" id="3_pvktp"]
-[ext_resource type="Texture2D" uid="uid://u680ldrioe65" path="res://assets/zoop-ship-2.png" id="4_iu5oe"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vdec6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qrhrc"]
 resource_local_to_scene = true
 shader = ExtResource("1_qrhrc")
 shader_parameter/original_palette = ExtResource("2_l0y18")
 shader_parameter/new_palette = ExtResource("2_l0y18")
 shader_parameter/color_count = 4
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lylmh"]
-size = Vector2(16, 16)
-
-[node name="Block" type="StaticBody2D" unique_id=1893247479]
-texture_filter = 1
-collision_layer = 2
-collision_mask = 2
+[node name="Collectible" unique_id=1181025695 instance=ExtResource("1_vdec6")]
 script = ExtResource("1_lylmh")
+color = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1334204113]
-material = SubResource("ShaderMaterial_vdec6")
-texture = ExtResource("4_iu5oe")
-region_enabled = true
+[node name="Sprite2D" parent="." index="0" unique_id=8514655]
+material = SubResource("ShaderMaterial_qrhrc")
 region_rect = Rect2(0, 0, 16, 16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=393446985]
-shape = SubResource("RectangleShape2D_lylmh")
-
-[node name="ColorComponent" parent="." unique_id=1685259152 node_paths=PackedStringArray("Sprite") instance=ExtResource("3_pvktp")]
+[node name="ColorComponent" parent="." index="2" unique_id=1685259152 node_paths=PackedStringArray("Sprite") instance=ExtResource("3_pvktp")]
 Sprite = NodePath("../Sprite2D")
