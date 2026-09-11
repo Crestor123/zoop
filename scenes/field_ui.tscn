@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpxtcaeflpuxd"]
 
 [ext_resource type="Script" uid="uid://csnt7fxsrjbxo" path="res://scenes/field_ui.gd" id="1_dsnr0"]
+[ext_resource type="PackedScene" uid="uid://jtlcqnx6a3u5" path="res://objects/ui/powerup_ui.tscn" id="2_46n3t"]
 
 [node name="FieldUI" type="Control" unique_id=615404218]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dsnr0")
+powerup_ui = ExtResource("2_46n3t")
 
 [node name="Score" type="Label" parent="." unique_id=1134559552]
 layout_mode = 0
@@ -49,6 +51,16 @@ text = "Resume"
 [node name="Quit" type="Button" parent="PauseMenu/VBoxContainer" unique_id=961080536]
 layout_mode = 2
 text = "Quit"
+
+[node name="PowerupContainer" type="HBoxContainer" parent="." unique_id=489417944]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 0
 
 [connection signal="pressed" from="PauseMenu/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="PauseMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

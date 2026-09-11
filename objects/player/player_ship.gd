@@ -4,11 +4,14 @@ class_name Player extends Area2D
 @onready var DashRay = $DashRay
 @onready var Sprite = $Sprite2D
 @onready var ColorComp = $ColorComponent
+@onready var Powerups = $Powerups
 
+@export var powerup_object : PackedScene
 @export var color : Game.BlockColor
 @export var stride : int = 16
 @export var speed : int = 8
 
+signal s_powerup_gained
 signal s_block_destroyed
 
 var score_multiplier : int = 1
@@ -60,18 +63,17 @@ func dash():
 	DashRay.force_raycast_update()
 	var collider = DashRay.get_collider()
 	
-	if collider is Collectible:
-		if collider is Powerup:
+	if collider is Powerup:
+		target_block = collider
+		moving = true
+
+	if collider is Block:
+		if collider.color != color:
 			target_block = collider
-			moving = true
-	
-		if collider is Block:
-			if collider.color != color:
-				target_block = collider
-			else:
-				var line = collider.line
-				target_block = line.get_back_block_by_color(color)
-			moving = true
+		else:
+			var line = collider.line
+			target_block = line.get_back_block_by_color(color)
+		moving = true
 		
 		dash_start_pos = position
 		var tween = create_tween()
@@ -112,6 +114,14 @@ func change_color(new_color : Game.BlockColor):
 	ColorComp.set_color(color)
 	print(color)
 
+func gain_powerup(powerup_data : PowerupData):
+	print("Gained powerup!")
+	s_powerup_gained.emit(powerup_data)
+	
+	var new_powerup = powerup_object.instantiate()
+	Powerups.add_child(new_powerup)
+	pass
+
 func _on_body_entered(body):
 	if body is Block:
 		if body.color == color:
@@ -123,5 +133,5 @@ func _on_body_entered(body):
 			change_color(target_block.color)
 			target_block.change_color(prev_color)
 	if body is Powerup:
-		print("gained powerup!")
+		gain_powerup(body.powerup_data)
 		body.destroy()

@@ -3,10 +3,14 @@
 [ext_resource type="Script" uid="uid://dlal3bbfsnben" path="res://scenes/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://ev2x70vgdbpq" path="res://scenes/field.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://uq5i03ljt3uq" path="res://scenes/main_menu.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://dg5dyuifwjlgw" path="res://resources/powerups/powerup_data.gd" id="4_iywne"]
+[ext_resource type="Resource" uid="uid://ca06wdbt4oyok" path="res://resources/powerups/break_line_powerup.tres" id="5_p57ef"]
 
 [node name="Game" type="Node2D" unique_id=2110573979]
 process_mode = 3
+texture_filter = 1
 scale = Vector2(4, 4)
 script = ExtResource("1_lnu2h")
 main_menu_scene = ExtResource("2_yqjtg")
 field_scene = ExtResource("1_uwrxv")
+powerups = Array[ExtResource("4_iywne")]([ExtResource("5_p57ef")])

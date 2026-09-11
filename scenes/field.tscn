@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://crq5yv1wb6oyx" path="res://assets/zoop_ship.png" id="1_6pmjc"]
 [ext_resource type="Script" uid="uid://bhb23uvhn4pco" path="res://scenes/field.gd" id="2_ttalb"]
-[ext_resource type="PackedScene" uid="uid://wqxpsrlwrxtf" path="res://objects/block_line.tscn" id="3_lptdg"]
-[ext_resource type="PackedScene" uid="uid://bsvq0ka6plkmr" path="res://objects/player_ship.tscn" id="3_wnvii"]
-[ext_resource type="PackedScene" uid="uid://ofsa343wlks6" path="res://objects/player_area.tscn" id="4_7156t"]
+[ext_resource type="PackedScene" uid="uid://wqxpsrlwrxtf" path="res://objects/field/block_line.tscn" id="3_lptdg"]
+[ext_resource type="PackedScene" uid="uid://bsvq0ka6plkmr" path="res://objects/player/player_ship.tscn" id="3_wnvii"]
+[ext_resource type="PackedScene" uid="uid://ofsa343wlks6" path="res://objects/field/player_area.tscn" id="4_7156t"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="4_tcubs"]
 [ext_resource type="PackedScene" uid="uid://cpxtcaeflpuxd" path="res://scenes/field_ui.tscn" id="5_pn4dk"]
 
@@ -69,7 +69,7 @@ position = Vector2(16, 16)
 
 [node name="BlockTimer" type="Timer" parent="." unique_id=934846963]
 process_mode = 1
-wait_time = 5.0
+wait_time = 2.0
 one_shot = true
 
 [connection signal="timeout" from="BlockTimer" to="." method="_on_block_timer_timeout"]

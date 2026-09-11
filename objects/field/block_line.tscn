@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://wqxpsrlwrxtf"]
+
+[ext_resource type="Script" uid="uid://cfypvybl4desq" path="res://objects/field/block_line.gd" id="1_iuc3n"]
+[ext_resource type="PackedScene" uid="uid://cjotdxcaux4n7" path="res://objects/field/block.tscn" id="2_jy2wf"]
+[ext_resource type="PackedScene" uid="uid://bdhjfvcubcbtn" path="res://objects/field/powerup.tscn" id="3_vm4xv"]
+
+[node name="BlockLine" type="Node2D" unique_id=552703043]
+process_mode = 1
+script = ExtResource("1_iuc3n")
+block_object = ExtResource("2_jy2wf")
+powerup_object = ExtResource("3_vm4xv")
+
+[node name="Collectibles" type="Node2D" parent="." unique_id=1264453231]

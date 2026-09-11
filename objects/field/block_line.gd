@@ -13,16 +13,19 @@ func create_block():
 	var new_block : Block = block_object.instantiate()
 	Collectibles.add_child(new_block)
 	new_block.line = self
+	new_block.next_position = new_block.position
 	new_block.change_color(randi_range(0, Game.BlockColor.size() - 1))
 	new_block.s_destroyed.connect(collectible_destroyed)
 	collectibles.append(new_block)
 	
 	move_collectibles()
 
-func create_powerup():
+func create_powerup(powerup_data : PowerupData):
 	var new_powerup : Powerup = powerup_object.instantiate()
 	Collectibles.add_child(new_powerup)
+	new_powerup.set_powerup_data(powerup_data)
 	new_powerup.line = self
+	new_powerup.position = new_powerup.position
 	new_powerup.s_destroyed.connect(collectible_destroyed)
 	collectibles.append(new_powerup)
 	
@@ -30,8 +33,10 @@ func create_powerup():
 
 func move_collectibles():
 	for collectible : Collectible in Collectibles.get_children():
+		collectible.position = collectible.next_position
+		collectible.next_position = collectible.position + direction * tile_size
 		var tween = create_tween()
-		tween.tween_property(collectible, "position", collectible.position + direction * tile_size, 1.0)
+		tween.tween_property(collectible, "position", collectible.next_position, 1.0)
 
 func collectible_destroyed(collectible : Collectible):
 	collectibles.erase(collectible)

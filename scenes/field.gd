@@ -5,33 +5,34 @@ class_name Field extends Node2D
 @onready var PlayerShip = $PlayerShip
 @onready var PlayerArea = $PlayerArea
 @onready var BlockTimer = $BlockTimer
-@onready var UI = $CanvasLayer/FieldUI
+@onready var UI : FieldUI = $CanvasLayer/FieldUI
 
 @export var tile_size : int = 16
 @export var block_line_object : PackedScene
 
 signal s_quit
 
+var powerups : Array[PowerupData]
+
 var paused : bool = false
 var score : int = 0
 var points_per_block : int = 100
 
 func _ready():
-	# Create four sets of block lines in the center of the field,
-	# each pointing from the edge of the screen toward the middle.
-	
+	UI.update_score(score)
+	UI.resume.connect(pause)
+	UI.quit.connect(quit)
+
+	PlayerShip.s_block_destroyed.connect(gain_points)
+	PlayerShip.s_powerup_gained.connect(gain_powerup)
+
+func initialize():
 	var half_tile = tile_size / 2
 	var x_size = Background.get_used_rect().size.x * tile_size
 	var y_size = Background.get_used_rect().size.y * tile_size
 	
-	UI.update_score(score)
-	UI.resume.connect(pause)
-	UI.quit.connect(quit)
-	
-	PlayerShip.position = Vector2(x_size / 2 - half_tile, y_size / 2 - half_tile)
-	PlayerShip.s_block_destroyed.connect(gain_points)
-	
-	PlayerArea.position = Vector2(x_size / 2, y_size / 2)
+	# Create four sets of block lines in the center of the field,
+	# each pointing from the edge of the screen toward the middle.
 	
 	# Pointing down
 	for i in range(4):
@@ -50,7 +51,11 @@ func _ready():
 	for i in range(4):
 		create_block_line(Vector2.RIGHT, Vector2(-half_tile, (4 * tile_size) + (i * tile_size) + (half_tile)))
 		
+	PlayerShip.position = Vector2(x_size / 2 - half_tile, y_size / 2 - half_tile)
+	PlayerArea.position = Vector2(x_size / 2, y_size / 2)
+		
 	BlockTimer.start()
+	pass
 
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
@@ -78,12 +83,19 @@ func create_block_line(dir : Vector2, pos : Vector2):
 	BlockLines.add_child(new_block_line)
 	new_block_line.direction = dir
 	new_block_line.position = pos
-	#new_block_line.create_block()
-	new_block_line.create_powerup()
+	new_block_line.create_block()
+	new_block_line.create_powerup(select_random_powerup())
+
+func select_random_powerup() -> PowerupData:
+	var powerup = powerups.pick_random()
+	return powerup
 
 func select_random_line() -> BlockLine:
 	var lines = BlockLines.get_children()
 	return lines.pick_random()
+
+func gain_powerup(powerup_data : PowerupData):
+	UI.add_powerup(powerup_data.sprite)
 
 func gain_points(score_multiplier):
 	score += points_per_block * score_multiplier

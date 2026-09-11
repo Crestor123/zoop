@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BreakLinePowerup" format=3 uid="uid://ca06wdbt4oyok"]
+
+[ext_resource type="Script" uid="uid://igo37cqaavee" path="res://resources/powerups/break_line.gd" id="1_o1frx"]
+[ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_k4cxi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75wcx"]
+atlas = ExtResource("2_k4cxi")
+region = Rect2(64, 16, 16, 16)
+
+[resource]
+script = ExtResource("1_o1frx")
+sprite = SubResource("AtlasTexture_75wcx")
+metadata/_custom_type_script = "uid://igo37cqaavee"

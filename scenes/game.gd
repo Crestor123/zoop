@@ -3,6 +3,8 @@ class_name Game extends Node2D
 @export var main_menu_scene : PackedScene
 @export var field_scene : PackedScene
 
+@export var powerups : Array[PowerupData]
+
 @export var tile_size = 16
 
 var current_scene = null
@@ -22,7 +24,9 @@ func _ready():
 func play():
 	var playfield = change_scene(field_scene)
 	
+	playfield.powerups = powerups
 	playfield.s_quit.connect(main_menu)
+	playfield.initialize()
 	
 func main_menu():
 	var menu = change_scene(main_menu_scene)

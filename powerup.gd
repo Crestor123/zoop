@@ -3,6 +3,7 @@ class_name Collectible extends StaticBody2D
 @onready var Sprite = $Sprite2D
 
 var line : BlockLine = null
+var next_position : Vector2
 
 signal s_destroyed
 

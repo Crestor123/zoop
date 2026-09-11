@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://bsvq0ka6plkmr"]
 
-[ext_resource type="Script" uid="uid://2epa2hj7se14" path="res://objects/player_ship.gd" id="1_qs0r5"]
+[ext_resource type="Script" uid="uid://2epa2hj7se14" path="res://objects/player/player_ship.gd" id="1_qs0r5"]
 [ext_resource type="Shader" uid="uid://csejqfo4fckkn" path="res://assets/palettes/palette_swap.tres" id="2_4ahvn"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_e37u2"]
-[ext_resource type="PackedScene" uid="uid://0v57e6ojg36b" path="res://objects/color_component.tscn" id="3_e37u2"]
+[ext_resource type="PackedScene" uid="uid://csvfmfr5q7lnr" path="res://objects/player/player_powerup.tscn" id="2_t1vf4"]
+[ext_resource type="PackedScene" uid="uid://0v57e6ojg36b" path="res://objects/field/color_component.tscn" id="3_e37u2"]
 [ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="4_tgrec"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kx2u2"]
@@ -21,6 +22,7 @@ process_mode = 1
 texture_filter = 1
 collision_mask = 3
 script = ExtResource("1_qs0r5")
+powerup_object = ExtResource("2_t1vf4")
 color = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1826084566]
@@ -43,5 +45,7 @@ collision_mask = 2
 
 [node name="ColorComponent" parent="." unique_id=1685259152 node_paths=PackedStringArray("Sprite") instance=ExtResource("3_e37u2")]
 Sprite = NodePath("../Sprite2D")
+
+[node name="Powerups" type="Node" parent="." unique_id=1125657941]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

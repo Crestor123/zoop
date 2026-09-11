@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://0v57e6ojg36b"]
 
-[ext_resource type="Script" uid="uid://dhcp22sti57t5" path="res://objects/color_component.gd" id="1_wobjv"]
+[ext_resource type="Script" uid="uid://dhcp22sti57t5" path="res://objects/field/color_component.gd" id="1_wobjv"]
 [ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="2_rqydn"]
 [ext_resource type="Texture2D" uid="uid://bo36n1yc0lhjh" path="res://assets/palettes/zoop-green-palette.png" id="3_qkxl1"]
 [ext_resource type="Texture2D" uid="uid://h7nalgxqrt75" path="res://assets/palettes/zoop-blue-palette.png" id="3_tfe8r"]
