@@ -1,4 +1,4 @@
-extends Control
+class_name PowerupUI extends Control
 
 @onready var Sprite = $TextureRect
 

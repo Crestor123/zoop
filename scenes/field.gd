@@ -94,8 +94,9 @@ func select_random_line() -> BlockLine:
 	var lines = BlockLines.get_children()
 	return lines.pick_random()
 
-func gain_powerup(powerup_data : PowerupData):
-	UI.add_powerup(powerup_data.sprite)
+func gain_powerup(powerup : PlayerPowerup):
+	var powerup_ui = UI.add_powerup(powerup.powerup_data.sprite)
+	powerup.powerup_ui = powerup_ui
 
 func gain_points(score_multiplier):
 	score += points_per_block * score_multiplier

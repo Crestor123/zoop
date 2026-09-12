@@ -2,4 +2,4 @@
 
 @export var sprite : AtlasTexture
 
-@abstract func activate()
+@abstract func activate(player : Player)
