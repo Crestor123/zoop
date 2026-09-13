@@ -12,6 +12,8 @@ class_name Player extends Area2D
 @export var speed : int = 8
 
 signal s_powerup_gained
+signal s_finished_forward_dash
+signal s_finished_dash
 signal s_block_destroyed
 
 enum State {
@@ -22,9 +24,12 @@ enum State {
 
 var score_multiplier : int = 1
 var input_buffer : Array[Vector2] = [Vector2.ZERO]
-var current_powerup : PlayerPowerup
 var current_input : Vector2
 var current_direction : Vector2
+
+var break_all_blocks : bool = false
+var current_powerup : PlayerPowerup
+var next_powerup_index : int = -1
 
 var inputs = {
 	"up" : 		Vector2.UP,
@@ -49,7 +54,11 @@ func _process(delta):
 			cycle_powerup()
 	
 	if Input.is_action_just_pressed("dash"):
-		dash()
+		if current_powerup != null:
+			use_powerup()
+		else:
+			check_target()
+			dash()
 	
 	# Loop through the inputs array and check each direction for movement
 	# Add the input directions to the buffer
@@ -74,8 +83,23 @@ func clear_input_buffer():
 
 ## Selects an available powerup from the player's list of powerups.
 func cycle_powerup():
-	print("cycling powerup")
-	pass
+	var num_powerups = Powerups.get_child_count()
+	if num_powerups == 0: return
+	
+	if current_powerup:
+		current_powerup.powerup_ui.show()
+	
+	next_powerup_index += 1
+	if next_powerup_index + 1 > num_powerups:
+		next_powerup_index = -1
+		
+	if next_powerup_index == -1:
+		current_powerup = null
+		
+	else:
+		current_powerup = Powerups.get_child(next_powerup_index)
+		current_powerup.powerup_ui.hide()
+		print(current_powerup.powerup_data.name)
 
 ## Finds the closest block in front of the player, and initiates a tween between the player's current position
 ## and that block. Does nothing if there are no blocks in front of the player.
@@ -84,6 +108,16 @@ func dash():
 	# Only initiate a dash if we're not moving
 	if cur_state != State.IDLE: return
 	
+	# If we have a target, we can dash
+	if target_block != null:
+		cur_state = State.DASH
+		
+		dash_start_pos = position
+		var tween = create_tween()
+		tween.finished.connect(finished_forward_dash)
+		tween.tween_property(self, "global_position", target_block.global_position, 0.2)
+
+func check_target():
 	target_block = null
 	
 	# Raycast to find the closest block
@@ -91,7 +125,7 @@ func dash():
 	DashRay.force_raycast_update()
 	var collider = DashRay.get_collider()
 	
-	# If it's a powerup, it's the target of the dash
+	# If it's a powerup, it's the target
 	if collider is Powerup:
 		target_block = collider
 	
@@ -104,15 +138,29 @@ func dash():
 		else:
 			var line = collider.line
 			target_block = line.get_back_block_by_color(color)
+	pass
+
+func check_closest_block():
+	target_block = null
 	
-	# If we have a target, we can dash
-	if target_block != null:
-		cur_state = State.DASH
-		
-		dash_start_pos = position
-		var tween = create_tween()
-		tween.finished.connect(finished_forward_dash)
-		tween.tween_property(self, "global_position", target_block.global_position, 0.2)
+	# Raycast to find the closest block
+	DashRay.target_position = current_direction * 200
+	DashRay.force_raycast_update()
+	var collider = DashRay.get_collider()
+	
+	if collider is Collectible:
+		target_block = collider
+
+func use_powerup():
+	check_target()
+	current_powerup.powerup_data.activate(self)
+	
+func finished_use_powerup():
+	current_powerup.powerup_ui.queue_free()
+	current_powerup.queue_free()
+	current_powerup = null
+	
+	next_powerup_index = -1
 
 ## Moves the player in a given direction, and rotates the player to face that direction.
 ## Changes state to move.
@@ -135,6 +183,7 @@ func move(dir : Vector2):
 ## Moves the player back to the starting position of a dash
 ## Called by the tween created in the dash function.
 func finished_forward_dash():
+	s_finished_forward_dash.emit(self)
 	score_multiplier = 1
 	
 	current_direction = -current_direction
@@ -146,6 +195,7 @@ func finished_forward_dash():
 ## Returns the player to an idle state after a dash.
 ## Called by the tween created in the finished_forward_dash function.
 func finished_dash():
+	s_finished_dash.emit(self)
 	cur_state = State.IDLE
 
 ## Returns the player to an idle state after moving.
@@ -175,7 +225,7 @@ func _on_body_entered(body):
 	# If we collide with a block, check if it is the same color.
 	if body is Block:
 		# If it is the same color, destroy the block and increment the score multiplier.
-		if body.color == color:
+		if body.color == color or break_all_blocks == true:
 			body.destroy()
 			s_block_destroyed.emit(score_multiplier)
 			score_multiplier += 1

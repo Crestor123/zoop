@@ -81,6 +81,7 @@ func quit():
 func create_block_line(dir : Vector2, pos : Vector2):
 	var new_block_line : BlockLine = block_line_object.instantiate()
 	BlockLines.add_child(new_block_line)
+	new_block_line.field = self
 	new_block_line.direction = dir
 	new_block_line.position = pos
 	new_block_line.create_block()

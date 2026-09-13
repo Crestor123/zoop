@@ -7,6 +7,7 @@ class_name BlockLine extends Node2D
 @export var direction : Vector2
 @export var tile_size : int = 16
 
+var field : Field
 var collectibles : Array[Collectible]
 
 func create_block():
@@ -41,12 +42,18 @@ func move_collectibles():
 func collectible_destroyed(collectible : Collectible):
 	collectibles.erase(collectible)
 	collectible.remove()
+	
+	for i in range(collectibles.size()):
+		var item = collectibles[i]
+		var tween = create_tween()
+		item.next_position = (collectibles.size() - i) * direction * tile_size
+		tween.tween_property(item, "position", item.next_position, 0.2)
 
 ## Finds the furthest (closest to the edge of the screen) block from the player of a given color.
-## If there is a block behind that one, the function returns it instead.
+## If there is a block behind that one that is the same color, the function returns it instead.
 ## color : The BlockColor of block to query for. Searches until blocks are no longer this color.
 ## return : The furthest block of the given color, the block behind it, or the end of the blocks array.
-func get_back_block_by_color(color : Game.BlockColor) -> Block:
+func get_back_block_by_color(color : Game.BlockColor) -> Collectible:
 	for i in range(collectibles.size()):
 		if collectibles[i] is Powerup:
 			return collectibles[i]
@@ -58,4 +65,8 @@ func get_back_block_by_color(color : Game.BlockColor) -> Block:
 				else:
 					return collectibles[i - 1]
 	
+	return collectibles.back()
+	
+## Gets the furthest (closest to the edge of the screen) block from the player.
+func get_back_block() -> Collectible:
 	return collectibles.back()

@@ -10,4 +10,5 @@ region = Rect2(64, 16, 16, 16)
 [resource]
 script = ExtResource("1_o1frx")
 sprite = SubResource("AtlasTexture_75wcx")
+name = "Break Line"
 metadata/_custom_type_script = "uid://igo37cqaavee"
