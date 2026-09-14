@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cqgw5ab3vgs7r"]
 
-[ext_resource type="Script" uid="uid://clr6cj0j7jdum" path="res://powerup.gd" id="1_y87ni"]
+[ext_resource type="Script" uid="uid://clr6cj0j7jdum" path="res://objects/field/collectible.gd" id="1_y87ni"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_il458"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ghf1a"]

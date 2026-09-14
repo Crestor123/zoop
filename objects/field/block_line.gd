@@ -35,9 +35,7 @@ func create_powerup(powerup_data : PowerupData):
 func move_collectibles():
 	for collectible : Collectible in Collectibles.get_children():
 		collectible.position = collectible.next_position
-		collectible.next_position = collectible.position + direction * tile_size
-		var tween = create_tween()
-		tween.tween_property(collectible, "position", collectible.next_position, 1.0)
+		collectible.next_position = collectible.next_position + direction * tile_size
 
 func collectible_destroyed(collectible : Collectible):
 	collectibles.erase(collectible)
@@ -45,9 +43,7 @@ func collectible_destroyed(collectible : Collectible):
 	
 	for i in range(collectibles.size()):
 		var item = collectibles[i]
-		var tween = create_tween()
 		item.next_position = (collectibles.size() - i) * direction * tile_size
-		tween.tween_property(item, "position", item.next_position, 0.2)
 
 ## Finds the furthest (closest to the edge of the screen) block from the player of a given color.
 ## If there is a block behind that one that is the same color, the function returns it instead.
