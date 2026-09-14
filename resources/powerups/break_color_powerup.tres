@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="BreakColorPowerup" format=3 uid="uid://dprxrrn4hgoap"]
 
+[ext_resource type="Texture2D" uid="uid://daascapuj5ig7" path="res://assets/palettes/zoop-color-break-palette.png" id="1_miayf"]
 [ext_resource type="Script" uid="uid://cdq7r42n1reab" path="res://resources/powerups/break_color.gd" id="1_nt55i"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_7q3gy"]
 
@@ -11,4 +12,5 @@ region = Rect2(80, 16, 16, 16)
 script = ExtResource("1_nt55i")
 sprite = SubResource("AtlasTexture_nt55i")
 name = "Break Color"
+palette = ExtResource("1_miayf")
 metadata/_custom_type_script = "uid://cdq7r42n1reab"

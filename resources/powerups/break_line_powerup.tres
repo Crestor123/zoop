@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="BreakLinePowerup" format=3 uid="uid://ca06wdbt4oyok"]
 
+[ext_resource type="Texture2D" uid="uid://csll41arwhw28" path="res://assets/palettes/zoop-line-break-palette.png" id="1_k4cxi"]
 [ext_resource type="Script" uid="uid://igo37cqaavee" path="res://resources/powerups/break_line.gd" id="1_o1frx"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="2_k4cxi"]
 
@@ -11,4 +12,5 @@ region = Rect2(64, 16, 16, 16)
 script = ExtResource("1_o1frx")
 sprite = SubResource("AtlasTexture_75wcx")
 name = "Break Line"
+palette = ExtResource("1_k4cxi")
 metadata/_custom_type_script = "uid://igo37cqaavee"

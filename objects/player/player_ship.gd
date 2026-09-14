@@ -9,21 +9,24 @@ class_name Player extends Area2D
 @export var powerup_object : PackedScene
 @export var color : Game.BlockColor
 @export var stride : int = 16
-@export var speed : int = 8
+@export var move_speed : int = 8
+@export var dash_speed : float = 5
 
 signal s_powerup_gained
 signal s_finished_forward_dash
 signal s_finished_dash
 signal s_block_destroyed
+signal s_broken_block_count
 
 enum State {
 	IDLE,
 	MOVE,
-	DASH
+	DASH,
 }
 
-var score_multiplier : int = 1
+var blocks_destroyed : int = 0
 var input_buffer : Array[Vector2] = [Vector2.ZERO]
+var buffered_dash : bool = false
 var current_input : Vector2
 var current_direction : Vector2
 
@@ -39,6 +42,7 @@ var inputs = {
 }
 
 var target_block : Collectible
+var target_pos : Vector2
 var dash_start_pos : Vector2
 var cur_state : State = State.IDLE
 
@@ -53,7 +57,7 @@ func _process(delta):
 		if Input.is_action_just_pressed("cycle_powerup"):
 			cycle_powerup()
 	
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_pressed("dash") or buffered_dash == true:
 		if current_powerup != null:
 			use_powerup()
 		else:
@@ -95,9 +99,11 @@ func cycle_powerup():
 		
 	if next_powerup_index == -1:
 		current_powerup = null
+		ColorComp.set_color(color)
 		
 	else:
 		current_powerup = Powerups.get_child(next_powerup_index)
+		ColorComp.set_palette(current_powerup.powerup_data.palette)
 		current_powerup.powerup_ui.hide()
 		print(current_powerup.powerup_data.name)
 
@@ -106,16 +112,29 @@ func cycle_powerup():
 ## Changes state to the dash state.
 func dash():
 	# Only initiate a dash if we're not moving
-	if cur_state != State.IDLE: return
+	if cur_state != State.IDLE: 
+		buffered_dash = true
+		return
 	
+	buffered_dash = false
 	# If we have a target, we can dash
 	if target_block != null:
 		cur_state = State.DASH
 		
-		dash_start_pos = position
+		dash_start_pos = global_position
 		var tween = create_tween()
 		tween.finished.connect(finished_forward_dash)
-		tween.tween_property(self, "global_position", target_block.global_position, 0.2)
+		tween.tween_method(tween_update, 0.0, 1.0, 0.2)
+		#tween.tween_property(self, "global_position", target_block.global_position, 0.2)
+
+func tween_update(weight : float):
+	var pos : Vector2
+	if target_block:
+		pos = target_block.global_position
+	elif target_pos:
+		pos = target_pos
+	
+	global_position = dash_start_pos.lerp(pos, weight)
 
 func check_target():
 	target_block = null
@@ -156,6 +175,7 @@ func use_powerup():
 	current_powerup.powerup_data.activate(self)
 	
 func finished_use_powerup():
+	ColorComp.set_color(color)
 	current_powerup.powerup_ui.queue_free()
 	current_powerup.queue_free()
 	current_powerup = null
@@ -178,19 +198,20 @@ func move(dir : Vector2):
 	
 	var tween = create_tween()
 	tween.finished.connect(finished_move)
-	tween.tween_property(self, "position", position + dir * stride, 1.0 / speed)
+	tween.tween_property(self, "position", position + dir * stride, 1.0 / move_speed)
 
 ## Moves the player back to the starting position of a dash
 ## Called by the tween created in the dash function.
 func finished_forward_dash():
 	s_finished_forward_dash.emit(self)
-	score_multiplier = 1
+	s_broken_block_count.emit(blocks_destroyed)
+	blocks_destroyed = 0
 	
 	current_direction = -current_direction
 	Sprite.rotation = current_direction.angle() + deg_to_rad(90)
 	var tween = create_tween()
 	tween.finished.connect(finished_dash)
-	tween.tween_property(self, "position", dash_start_pos, 0.2)
+	tween.tween_property(self, "global_position", dash_start_pos, 0.2)
 
 ## Returns the player to an idle state after a dash.
 ## Called by the tween created in the finished_forward_dash function.
@@ -223,12 +244,15 @@ func gain_powerup(powerup_data : PowerupData):
 
 func _on_body_entered(body):
 	# If we collide with a block, check if it is the same color.
+	if body == target_block:
+		target_pos = target_block.global_position
+	
 	if body is Block:
 		# If it is the same color, destroy the block and increment the score multiplier.
 		if body.color == color or break_all_blocks == true:
 			body.destroy()
-			s_block_destroyed.emit(score_multiplier)
-			score_multiplier += 1
+			blocks_destroyed += 1
+			s_block_destroyed.emit(blocks_destroyed)
 		# If it's not the same color, change the player's color to that block's color.
 		else:
 			var prev_color = color
