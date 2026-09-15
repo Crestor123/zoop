@@ -5,4 +5,4 @@ Pause Menu - Done
 Background changes palettes / designs
 Score - Done 
 High Scores
-Power-ups
+Power-ups - Done

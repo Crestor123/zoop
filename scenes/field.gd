@@ -102,7 +102,7 @@ func gain_powerup(powerup : PlayerPowerup):
 	var powerup_ui = UI.add_powerup(powerup.powerup_data.sprite)
 	powerup.powerup_ui = powerup_ui
 
-func gain_points(score_multiplier : int):
+func gain_points(_blocks_broken : int, score_multiplier : int):
 	score += points_per_block * score_multiplier
 	UI.update_score(score)
 
