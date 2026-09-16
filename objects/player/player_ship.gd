@@ -24,8 +24,6 @@ enum State {
 	DASH,
 }
 
-var blocks_destroyed : int = 0
-var score_multiplier : int = 1
 var input_buffer : Array[Vector2] = [Vector2.ZERO]
 var buffered_dash : bool = false
 var current_input : Vector2
@@ -205,9 +203,6 @@ func move(dir : Vector2):
 ## Called by the tween created in the dash function.
 func finished_forward_dash():
 	s_finished_forward_dash.emit(self)
-	s_broken_block_count.emit(blocks_destroyed)
-	blocks_destroyed = 0
-	score_multiplier = 1
 	
 	current_direction = -current_direction
 	Sprite.rotation = current_direction.angle() + deg_to_rad(90)
@@ -252,11 +247,8 @@ func _on_body_entered(body):
 	if body is Block:
 		# If it is the same color, destroy the block and increment the score multiplier.
 		if body.color == color or break_all_blocks == true:
+			s_block_destroyed.emit(body, break_all_blocks)
 			body.destroy()
-			blocks_destroyed += 1
-			s_block_destroyed.emit(blocks_destroyed, score_multiplier)
-			if break_all_blocks == false: 
-				score_multiplier += 1
 		# If it's not the same color, change the player's color to that block's color.
 		else:
 			var prev_color = color

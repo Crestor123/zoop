@@ -15,11 +15,12 @@ func activate(player : Player):
 	player.break_all_blocks = true
 	player.dash()
 
-func break_blocks(_player : Player):
+func break_blocks(player : Player):
 	for line : BlockLine in field.BlockLines.get_children():
 		for block : Collectible in line.Collectibles.get_children():
 			if block is not Block: continue
 			if block.color == color:
+				player.s_block_destroyed.emit(block, true)
 				block.destroy()
 
 func cleanup(player : Player):

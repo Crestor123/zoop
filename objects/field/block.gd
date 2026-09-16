@@ -9,9 +9,3 @@ class_name Block extends Collectible
 func change_color(new_color : Game.BlockColor):
 	color = new_color
 	ColorComp.set_color(color)
-
-func destroy():
-	s_destroyed.emit(self)
-
-func remove():
-	queue_free()

@@ -2,6 +2,28 @@
 
 [ext_resource type="Script" uid="uid://csnt7fxsrjbxo" path="res://scenes/field_ui.gd" id="1_dsnr0"]
 [ext_resource type="PackedScene" uid="uid://jtlcqnx6a3u5" path="res://objects/ui/powerup_ui.tscn" id="2_46n3t"]
+[ext_resource type="FontFile" uid="uid://bjqubutkr0i42" path="res://assets/fonts/PixeloidSansBold-1jpBg.ttf" id="3_g04g7"]
+[ext_resource type="FontFile" uid="uid://cld1nd6o03hvl" path="res://assets/fonts/PixeloidSans-lxa3y.ttf" id="4_2ec0m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2ec0m"]
+font = ExtResource("3_g04g7")
+font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ec0m"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gxfca"]
+font = ExtResource("4_2ec0m")
+font_size = 64
+
+[sub_resource type="Theme" id="Theme_gxfca"]
+default_font = ExtResource("4_2ec0m")
+default_font_size = 32
 
 [node name="FieldUI" type="Control" unique_id=615404218]
 layout_mode = 3
@@ -18,38 +40,51 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Score"
+label_settings = SubResource("LabelSettings_2ec0m")
 
 [node name="PauseMenu" type="Control" parent="." unique_id=1188172469]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu" unique_id=1535443143]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -128.0
+offset_top = -91.5
+offset_right = 128.0
+offset_bottom = 91.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2ec0m")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu" unique_id=1903164572]
-layout_mode = 0
-offset_right = 70.0
-offset_bottom = 58.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/PanelContainer" unique_id=1903164572]
+layout_mode = 2
 
-[node name="Pause" type="Label" parent="PauseMenu/VBoxContainer" unique_id=834580749]
+[node name="Pause" type="Label" parent="PauseMenu/PanelContainer/VBoxContainer" unique_id=834580749]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Paused"
+label_settings = SubResource("LabelSettings_gxfca")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Resume" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1456146941]
+[node name="Resume" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer" unique_id=1456146941]
 layout_mode = 2
+theme = SubResource("Theme_gxfca")
 text = "Resume"
 
-[node name="Quit" type="Button" parent="PauseMenu/VBoxContainer" unique_id=961080536]
+[node name="Quit" type="Button" parent="PauseMenu/PanelContainer/VBoxContainer" unique_id=961080536]
 layout_mode = 2
+theme = SubResource("Theme_gxfca")
 text = "Quit"
 
 [node name="PowerupContainer" type="HBoxContainer" parent="." unique_id=489417944]
@@ -62,5 +97,5 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 0
 
-[connection signal="pressed" from="PauseMenu/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="PauseMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

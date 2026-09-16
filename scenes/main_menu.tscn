@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://uq5i03ljt3uq"]
 
 [ext_resource type="Script" uid="uid://ruwagdvwv1de" path="res://scenes/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="FontFile" uid="uid://cld1nd6o03hvl" path="res://assets/fonts/PixeloidSans-lxa3y.ttf" id="2_ekxnf"]
+
+[sub_resource type="Theme" id="Theme_bqqt6"]
+default_font = ExtResource("2_ekxnf")
+default_font_size = 64
 
 [node name="MainMenu" type="Control" unique_id=1837816882]
 layout_mode = 3
@@ -25,6 +30,7 @@ layout_mode = 2
 
 [node name="Play" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer" unique_id=1399981017]
 layout_mode = 2
+theme = SubResource("Theme_bqqt6")
 text = "Play"
 
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]

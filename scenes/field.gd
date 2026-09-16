@@ -9,6 +9,7 @@ class_name Field extends Node2D
 
 @export var tile_size : int = 16
 @export var block_line_object : PackedScene
+@export var score_popup_object : PackedScene
 @export var powerup_chance_increment : float = 0.01
 
 signal s_quit
@@ -17,6 +18,8 @@ var powerups : Array[PowerupData]
 var powerup_chance : float = 0.0
 
 var paused : bool = false
+var score_multiplier : int = 0
+var blocks_broken : int = 0
 var score : int = 0
 var points_per_block : int = 100
 
@@ -25,8 +28,8 @@ func _ready():
 	UI.resume.connect(pause)
 	UI.quit.connect(quit)
 
-	PlayerShip.s_block_destroyed.connect(gain_points)
-	PlayerShip.s_broken_block_count.connect(tally_powerup_chance)
+	PlayerShip.s_block_destroyed.connect(block_broken)
+	PlayerShip.s_finished_forward_dash.connect(reset_score_multiplier)
 	PlayerShip.s_powerup_gained.connect(gain_powerup)
 
 func initialize():
@@ -102,13 +105,29 @@ func gain_powerup(powerup : PlayerPowerup):
 	var powerup_ui = UI.add_powerup(powerup.powerup_data.sprite)
 	powerup.powerup_ui = powerup_ui
 
-func gain_points(_blocks_broken : int, score_multiplier : int):
-	score += points_per_block * score_multiplier
-	UI.update_score(score)
+func block_broken(block : Collectible, powerup_active : bool):
+	var points : int = points_per_block
+	if !powerup_active:
+		blocks_broken += 1
+		score_multiplier += 1
+		points = points_per_block * score_multiplier
+	gain_points(points)
+	
+	var new_popup : ScorePopup = score_popup_object.instantiate()
+	add_child(new_popup)
+	new_popup.global_position = block.global_position
+	new_popup.set_points(points)
 
-func tally_powerup_chance(block_count):
-	powerup_chance += block_count * powerup_chance_increment
-	pass
+func reset_score_multiplier(_player : Player):
+	powerup_chance += blocks_broken * powerup_chance_increment
+	blocks_broken = 0
+	score_multiplier = 1
+	
+func gain_points(points : int) -> int: 
+	score += points
+	UI.update_score(score)
+	
+	return points
 
 func _on_block_timer_timeout():
 	var line : BlockLine = select_random_line()

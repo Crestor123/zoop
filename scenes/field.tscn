@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://crq5yv1wb6oyx" path="res://assets/zoop_ship.png" id="1_6pmjc"]
 [ext_resource type="Script" uid="uid://bhb23uvhn4pco" path="res://scenes/field.gd" id="2_ttalb"]
 [ext_resource type="PackedScene" uid="uid://wqxpsrlwrxtf" path="res://objects/field/block_line.tscn" id="3_lptdg"]
+[ext_resource type="PackedScene" uid="uid://11j1owwf17gs" path="res://objects/ui/score_popup.tscn" id="3_vjqoj"]
 [ext_resource type="PackedScene" uid="uid://bsvq0ka6plkmr" path="res://objects/player/player_ship.tscn" id="3_wnvii"]
 [ext_resource type="PackedScene" uid="uid://ofsa343wlks6" path="res://objects/field/player_area.tscn" id="4_7156t"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="4_tcubs"]
@@ -46,6 +47,7 @@ process_mode = 3
 texture_filter = 1
 script = ExtResource("2_ttalb")
 block_line_object = ExtResource("3_lptdg")
+score_popup_object = ExtResource("3_vjqoj")
 
 [node name="Background" type="TileMapLayer" parent="." unique_id=859895570]
 texture_filter = 1
