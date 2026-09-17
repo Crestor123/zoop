@@ -10,6 +10,11 @@ class_name BlockLine extends Node2D
 var field : Field
 var collectibles : Array[Collectible]
 
+func clear():
+	collectibles.clear()
+	for item in Collectibles.get_children():
+		item.queue_free()
+
 func create_block():
 	var new_block : Block = block_object.instantiate()
 	Collectibles.add_child(new_block)

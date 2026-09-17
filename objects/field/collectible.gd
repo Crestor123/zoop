@@ -1,4 +1,4 @@
-class_name Collectible extends StaticBody2D
+class_name Collectible extends CharacterBody2D
 
 @onready var Sprite = $Sprite2D
 @onready var Collision = $CollisionShape2D

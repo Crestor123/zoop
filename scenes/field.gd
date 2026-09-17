@@ -17,6 +17,7 @@ signal s_quit
 var powerups : Array[PowerupData]
 var powerup_chance : float = 0.0
 
+var block_timer_active : bool = true
 var paused : bool = false
 var score_multiplier : int = 0
 var blocks_broken : int = 0
@@ -26,11 +27,14 @@ var points_per_block : int = 100
 func _ready():
 	UI.update_score(score)
 	UI.resume.connect(pause)
+	UI.reset.connect(reset)
 	UI.quit.connect(quit)
 
 	PlayerShip.s_block_destroyed.connect(block_broken)
 	PlayerShip.s_finished_forward_dash.connect(reset_score_multiplier)
 	PlayerShip.s_powerup_gained.connect(gain_powerup)
+	
+	PlayerArea.s_player_lose.connect(game_over)
 
 func initialize():
 	var half_tile = tile_size / 2
@@ -57,15 +61,34 @@ func initialize():
 	for i in range(4):
 		create_block_line(Vector2.RIGHT, Vector2(-half_tile, (4 * tile_size) + (i * tile_size) + (half_tile)))
 		
-	PlayerShip.position = Vector2(x_size / 2 - half_tile, y_size / 2 - half_tile)
+	initialize_player()
 	PlayerArea.position = Vector2(x_size / 2, y_size / 2)
 		
 	BlockTimer.start()
-	pass
+
+func initialize_player():
+	var half_tile = tile_size / 2
+	var x_size = Background.get_used_rect().size.x * tile_size
+	var y_size = Background.get_used_rect().size.y * tile_size
+	
+	PlayerShip.active = true
+	PlayerShip.position = Vector2(x_size / 2 - half_tile, y_size / 2 - half_tile)
 
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
 		pause()
+
+func reset():
+	UI.hide_game_over()
+	
+	for line : BlockLine in BlockLines.get_children():
+		line.clear()
+	for line : BlockLine in BlockLines.get_children():
+		line.create_block()
+	
+	initialize_player()
+	block_timer_active = true
+	BlockTimer.start()
 
 func pause():
 	paused = !paused
@@ -121,7 +144,7 @@ func block_broken(block : Collectible, powerup_active : bool):
 func reset_score_multiplier(_player : Player):
 	powerup_chance += blocks_broken * powerup_chance_increment
 	blocks_broken = 0
-	score_multiplier = 1
+	score_multiplier = 0
 	
 func gain_points(points : int) -> int: 
 	score += points
@@ -129,7 +152,16 @@ func gain_points(points : int) -> int:
 	
 	return points
 
+func game_over():
+	block_timer_active = false
+	PlayerShip.game_over()
+	UI.show_game_over(score)
+
 func _on_block_timer_timeout():
+	if block_timer_active == false:
+		BlockTimer.stop()
+		return
+	
 	var line : BlockLine = select_random_line()
 	var rand = randf_range(0.0, 1.0)
 	if rand < powerup_chance:

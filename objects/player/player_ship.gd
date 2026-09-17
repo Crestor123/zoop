@@ -40,6 +40,7 @@ var inputs = {
 	"right" : 	Vector2.RIGHT
 }
 
+var active : bool = true
 var target_block : Collectible
 var target_pos : Vector2
 var dash_start_pos : Vector2
@@ -51,6 +52,8 @@ func _ready():
 	position += Vector2.ONE * stride / 2
 
 func _process(delta):
+	if active == false: return
+	
 	# If we're not dashing, we can select the powerup we want to use
 	if cur_state != State.DASH:
 		if Input.is_action_just_pressed("cycle_powerup"):
@@ -238,6 +241,9 @@ func gain_powerup(powerup_data : PowerupData):
 	new_powerup.powerup_data = powerup_data 
 	s_powerup_gained.emit(new_powerup)
 	pass
+
+func game_over():
+	active = false
 
 func _on_body_entered(body):
 	# If we collide with a block, check if it is the same color.

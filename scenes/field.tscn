@@ -58,12 +58,12 @@ tile_set = SubResource("TileSet_lptdg")
 tile_map_data = PackedByteArray("AAAGAAgAAQAAAAQAAAAGAAcAAQAAAAMAAAAGAAYAAQAAAAMAAAAGAAUAAQAAAAMAAAAGAAQAAQAAAAMAAAAGAAMAAQAAAAIAAAAHAAMAAQABAAIAAAAIAAMAAQABAAIAAAAJAAMAAQABAAIAAAAKAAMAAQABAAIAAAALAAMAAQACAAIAAAALAAQAAQACAAMAAAALAAUAAQACAAMAAAALAAYAAQACAAMAAAALAAcAAQACAAMAAAALAAgAAQACAAQAAAAKAAgAAQABAAQAAAAJAAgAAQABAAQAAAAIAAgAAQABAAQAAAAHAAgAAQABAAQAAAA=")
 tile_set = SubResource("TileSet_lptdg")
 
-[node name="PlayerArea" parent="." unique_id=1484962429 instance=ExtResource("4_7156t")]
-
 [node name="PlayerShip" parent="." unique_id=77197193 instance=ExtResource("3_wnvii")]
 position = Vector2(16, 16)
 
 [node name="BlockLines" type="Node2D" parent="." unique_id=1833060347]
+
+[node name="PlayerArea" parent="." unique_id=1484962429 instance=ExtResource("4_7156t")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1696627780]
 
@@ -71,7 +71,7 @@ position = Vector2(16, 16)
 
 [node name="BlockTimer" type="Timer" parent="." unique_id=934846963]
 process_mode = 1
-wait_time = 2.0
+wait_time = 0.5
 one_shot = true
 
 [connection signal="timeout" from="BlockTimer" to="." method="_on_block_timer_timeout"]

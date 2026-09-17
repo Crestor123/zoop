@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bp3fk7vbm7uai" path="res://objects/field/player_area.gd" id="1_pktqp"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7gqhl"]
+size = Vector2(48, 48)
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_tkl1v"]
 normal = Vector2(0, 1)
 distance = -32.0
@@ -19,6 +22,13 @@ distance = -32.0
 
 [node name="PlayerArea" type="Node2D" unique_id=1484962429]
 script = ExtResource("1_pktqp")
+
+[node name="LoseArea" type="Area2D" parent="." unique_id=161139327]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LoseArea" unique_id=524059604]
+shape = SubResource("RectangleShape2D_7gqhl")
 
 [node name="Walls" type="Node2D" parent="." unique_id=1093010419]
 
@@ -56,3 +66,5 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="body_entered" from="LoseArea" to="." method="_on_lose_area_body_entered"]

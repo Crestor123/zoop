@@ -6,3 +6,4 @@ Background changes palettes / designs
 Score - Done 
 High Scores
 Power-ups - Done
+Game Over

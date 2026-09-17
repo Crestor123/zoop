@@ -6,7 +6,11 @@ class_name FieldUI extends Control
 @onready var PauseMenu = $PauseMenu
 @onready var PowerupContainer = $PowerupContainer
 
+@onready var GameOverMenu = $GameOverMenu
+@onready var lblGameOverScore = $GameOverMenu/PanelContainer/VBoxContainer/GameOverScore
+
 signal resume
+signal reset
 signal quit
 
 func update_score(val : int):
@@ -24,8 +28,21 @@ func show_pause():
 func hide_pause():
 	PauseMenu.hide()
 
+func show_game_over(score : int):
+	lblGameOverScore.text = str(score)
+	GameOverMenu.show()
+
+func hide_game_over():
+	GameOverMenu.hide()
+
 func _on_resume_pressed():
 	resume.emit()
+
+func _on_pause_quit_pressed():
+	quit.emit()
+
+func _on_play_again_pressed():
+	reset.emit()
 
 func _on_quit_pressed():
 	quit.emit()
