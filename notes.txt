@@ -4,6 +4,6 @@ Main Menu - Done
 Pause Menu - Done
 Background changes palettes / designs
 Score - Done 
-High Scores
+High Scores - Done
 Power-ups - Done
-Game Over
+Game Over - Done

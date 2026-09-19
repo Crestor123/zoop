@@ -33,4 +33,10 @@ layout_mode = 2
 theme = SubResource("Theme_bqqt6")
 text = "Play"
 
+[node name="HighScores" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer" unique_id=1796618540]
+layout_mode = 2
+theme = SubResource("Theme_bqqt6")
+text = "High Scores"
+
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/HighScores" to="." method="_on_high_scores_pressed"]

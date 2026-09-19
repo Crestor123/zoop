@@ -71,7 +71,6 @@ position = Vector2(16, 16)
 
 [node name="BlockTimer" type="Timer" parent="." unique_id=934846963]
 process_mode = 1
-wait_time = 0.5
 one_shot = true
 
 [connection signal="timeout" from="BlockTimer" to="." method="_on_block_timer_timeout"]

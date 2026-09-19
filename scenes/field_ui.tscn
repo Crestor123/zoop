@@ -99,16 +99,32 @@ theme_override_constants/separation = 0
 
 [node name="GameOverMenu" type="Control" parent="." unique_id=1818701987]
 visible = false
-anchors_preset = 0
-offset_left = 391.0
-offset_top = 344.5
-offset_right = 431.0
-offset_bottom = 384.5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="GameOverMenu" unique_id=1892178063]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.5
+offset_top = -163.0
+offset_right = 285.5
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2ec0m")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/PanelContainer" unique_id=422589860]
@@ -120,9 +136,35 @@ size_flags_horizontal = 4
 text = "Game Over"
 label_settings = SubResource("LabelSettings_gxfca")
 
+[node name="NewHighScoreMenu" type="VBoxContainer" parent="GameOverMenu/PanelContainer/VBoxContainer" unique_id=1193563039]
+layout_mode = 2
+
+[node name="NewHighScore" type="Label" parent="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu" unique_id=1345982203]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "New High Score!"
+label_settings = SubResource("LabelSettings_gxfca")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu" unique_id=196526515]
+layout_mode = 2
+
+[node name="HighScoreNameEntry" type="LineEdit" parent="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu/HBoxContainer" unique_id=1517149241]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_2ec0m")
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Enter Name"
+
+[node name="NewHighScoreConfirm" type="Button" parent="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu/HBoxContainer" unique_id=1836414982]
+layout_mode = 2
+size_flags_horizontal = 8
+theme = SubResource("Theme_gxfca")
+text = "Confirm"
+
 [node name="GameOverScore" type="Label" parent="GameOverMenu/PanelContainer/VBoxContainer" unique_id=200943641]
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 6
 text = "Score"
 label_settings = SubResource("LabelSettings_2ec0m")
 
@@ -138,5 +180,7 @@ text = "Quit"
 
 [connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="PauseMenu/PanelContainer/VBoxContainer/PauseQuit" to="." method="_on_quit_pressed"]
+[connection signal="text_submitted" from="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu/HBoxContainer/HighScoreNameEntry" to="." method="_on_high_score_name_entry_text_submitted"]
+[connection signal="pressed" from="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu/HBoxContainer/NewHighScoreConfirm" to="." method="_on_new_high_score_confirm_pressed"]
 [connection signal="pressed" from="GameOverMenu/PanelContainer/VBoxContainer/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="GameOverMenu/PanelContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

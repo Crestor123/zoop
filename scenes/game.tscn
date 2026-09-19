@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://dlal3bbfsnben" path="res://scenes/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://ev2x70vgdbpq" path="res://scenes/field.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://uq5i03ljt3uq" path="res://scenes/main_menu.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://didic8dx787kd" path="res://scenes/high_score_menu.tscn" id="4_gee14"]
 [ext_resource type="Script" uid="uid://dg5dyuifwjlgw" path="res://resources/powerups/powerup_data.gd" id="4_iywne"]
 [ext_resource type="Resource" uid="uid://ca06wdbt4oyok" path="res://resources/powerups/break_line_powerup.tres" id="5_p57ef"]
 [ext_resource type="Resource" uid="uid://dprxrrn4hgoap" path="res://resources/powerups/break_color_powerup.tres" id="6_p57ef"]
+[ext_resource type="Script" uid="uid://cm02s1p7lv1vk" path="res://scenes/high_scores.gd" id="7_u5sy4"]
 
 [node name="Game" type="Node2D" unique_id=2110573979]
 process_mode = 3
@@ -14,4 +16,8 @@ scale = Vector2(4, 4)
 script = ExtResource("1_lnu2h")
 main_menu_scene = ExtResource("2_yqjtg")
 field_scene = ExtResource("1_uwrxv")
+high_score_scene = ExtResource("4_gee14")
 powerups = Array[ExtResource("4_iywne")]([ExtResource("5_p57ef"), ExtResource("6_p57ef")])
+
+[node name="HighScores" type="Node" parent="." unique_id=1728720119]
+script = ExtResource("7_u5sy4")

@@ -8,10 +8,13 @@ class_name FieldUI extends Control
 
 @onready var GameOverMenu = $GameOverMenu
 @onready var lblGameOverScore = $GameOverMenu/PanelContainer/VBoxContainer/GameOverScore
+@onready var NewHighScoreMenu = $GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu
+@onready var NameEntry = $GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu/HBoxContainer/HighScoreNameEntry
 
 signal resume
 signal reset
 signal quit
+signal new_high_score_confirm
 
 func update_score(val : int):
 	lblScore.text = str(val)
@@ -28,12 +31,21 @@ func show_pause():
 func hide_pause():
 	PauseMenu.hide()
 
-func show_game_over(score : int):
+func show_game_over(new_high_score : bool, score : int):
 	lblGameOverScore.text = str(score)
+	if new_high_score:
+		NameEntry.editable = true
+		NewHighScoreMenu.show()
+	
 	GameOverMenu.show()
 
 func hide_game_over():
+	NewHighScoreMenu.hide()
 	GameOverMenu.hide()
+
+func submit_high_score():
+	NameEntry.editable = false
+	new_high_score_confirm.emit(NameEntry.text)
 
 func _on_resume_pressed():
 	resume.emit()
@@ -46,3 +58,9 @@ func _on_play_again_pressed():
 
 func _on_quit_pressed():
 	quit.emit()
+
+func _on_new_high_score_confirm_pressed():
+	submit_high_score()
+
+func _on_high_score_name_entry_text_submitted(_new_text):
+	submit_high_score()

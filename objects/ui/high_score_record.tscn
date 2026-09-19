@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bq2dwwbeg5wce"]
+
+[ext_resource type="FontFile" uid="uid://bjqubutkr0i42" path="res://assets/fonts/PixeloidSansBold-1jpBg.ttf" id="1_821bf"]
+[ext_resource type="Script" uid="uid://7o0ug6sqqr6h" path="res://objects/ui/high_score_record.gd" id="1_ofpxb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ofpxb"]
+font = ExtResource("1_821bf")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_c5huw"]
+font = ExtResource("1_821bf")
+font_size = 32
+
+[node name="HighScoreRecord" type="Control" unique_id=1013572259]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_ofpxb")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=935953048]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=1277200766]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="PanelContainer/HBoxContainer" unique_id=46641861]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Name"
+label_settings = SubResource("LabelSettings_ofpxb")
+
+[node name="Score" type="Label" parent="PanelContainer/HBoxContainer" unique_id=1063390850]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Score"
+label_settings = SubResource("LabelSettings_c5huw")

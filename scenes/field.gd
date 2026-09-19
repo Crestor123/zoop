@@ -13,6 +13,8 @@ class_name Field extends Node2D
 @export var powerup_chance_increment : float = 0.01
 
 signal s_quit
+signal s_game_over
+signal s_new_high_score_name
 
 var powerups : Array[PowerupData]
 var powerup_chance : float = 0.0
@@ -27,6 +29,7 @@ var points_per_block : int = 100
 func _ready():
 	UI.update_score(score)
 	UI.resume.connect(pause)
+	UI.new_high_score_confirm.connect(confirm_new_high_score)
 	UI.reset.connect(reset)
 	UI.quit.connect(quit)
 
@@ -155,7 +158,14 @@ func gain_points(points : int) -> int:
 func game_over():
 	block_timer_active = false
 	PlayerShip.game_over()
-	UI.show_game_over(score)
+	
+	s_game_over.emit(score)
+
+func show_score(new_high_score : bool):
+	UI.show_game_over(new_high_score, score)
+
+func confirm_new_high_score(score_name):
+	s_new_high_score_name.emit(score_name, score)
 
 func _on_block_timer_timeout():
 	if block_timer_active == false:

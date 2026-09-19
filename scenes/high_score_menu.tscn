@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://didic8dx787kd"]
+
+[ext_resource type="FontFile" uid="uid://cld1nd6o03hvl" path="res://assets/fonts/PixeloidSans-lxa3y.ttf" id="1_pq0bp"]
+[ext_resource type="Script" uid="uid://b1yrny466io6o" path="res://scenes/high_score_menu.gd" id="1_yur17"]
+[ext_resource type="PackedScene" uid="uid://bq2dwwbeg5wce" path="res://objects/ui/high_score_record.tscn" id="2_t70kv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yur17"]
+font = ExtResource("1_pq0bp")
+font_size = 64
+
+[sub_resource type="Theme" id="Theme_t70kv"]
+default_font = ExtResource("1_pq0bp")
+default_font_size = 64
+
+[node name="HighScoreMenu" type="Control" unique_id=889059384]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yur17")
+high_score_record_object = ExtResource("2_t70kv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=316322255]
+
+[node name="NoScoresYet" type="Label" parent="CanvasLayer" unique_id=917501022]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -337.5
+offset_top = -39.5
+offset_right = 337.5
+offset_bottom = 39.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "No high scores yet!"
+label_settings = SubResource("LabelSettings_yur17")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=838021198]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 144.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="Records" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=2111613897]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="Back" type="Button" parent="CanvasLayer" unique_id=644834607]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -87.0
+offset_right = 86.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_t70kv")
+text = "Back"
+
+[connection signal="pressed" from="CanvasLayer/Back" to="." method="_on_back_pressed"]
