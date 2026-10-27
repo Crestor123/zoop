@@ -3,6 +3,8 @@ class_name FieldUI extends Control
 @export var powerup_ui : PackedScene
 
 @onready var lblScore = $Score
+@onready var lblBlocksRequired = $BlocksRequired
+@onready var lblLevel = $Level
 @onready var PauseMenu = $PauseMenu
 @onready var PowerupContainer = $PowerupContainer
 
@@ -18,6 +20,12 @@ signal new_high_score_confirm
 
 func update_score(val : int):
 	lblScore.text = str(val)
+
+func update_blocks_required(val : int):
+	lblBlocksRequired.text = str(val)
+	
+func update_level(val : int):
+	lblLevel.text = str(val)
 
 func add_powerup(powerup_sprite : AtlasTexture) -> PowerupUI:
 	var new_powerup = powerup_ui.instantiate()

@@ -11,6 +11,11 @@ class_name Field extends Node2D
 @export var block_line_object : PackedScene
 @export var score_popup_object : PackedScene
 @export var powerup_chance_increment : float = 0.01
+@export var initial_timer : float = 1.5
+@export var timer_decrement : float = 0.1
+@export var minimum_time : float = 0.8
+@export var initial_blocks_required : int = 30
+@export var blocks_required_increment : int = 10
 
 signal s_quit
 signal s_game_over
@@ -21,8 +26,12 @@ var powerup_chance : float = 0.0
 
 var block_timer_active : bool = true
 var paused : bool = false
-var score_multiplier : int = 0
+
+var blocks_required : int = 0
+var level : int = 0
 var blocks_broken : int = 0
+
+var score_multiplier : int = 0
 var score : int = 0
 var points_per_block : int = 100
 
@@ -66,7 +75,13 @@ func initialize():
 		
 	initialize_player()
 	PlayerArea.position = Vector2(x_size / 2, y_size / 2)
-		
+	
+	blocks_required = initial_blocks_required
+	UI.update_blocks_required(blocks_required)
+	level = 1
+	UI.update_level(level)
+	BlockTimer.wait_time = initial_timer
+	
 	BlockTimer.start()
 
 func initialize_player():
@@ -77,7 +92,7 @@ func initialize_player():
 	PlayerShip.active = true
 	PlayerShip.position = Vector2(x_size / 2 - half_tile, y_size / 2 - half_tile)
 
-func _process(delta):
+func _unhandled_input(_event):
 	if Input.is_action_just_pressed("pause"):
 		pause()
 
@@ -125,13 +140,28 @@ func select_random_powerup() -> PowerupData:
 
 func select_random_line() -> BlockLine:
 	var lines = BlockLines.get_children()
-	return lines.pick_random()
+	for line : BlockLine in lines:
+		if line.chosen_last == true:
+			lines.erase(line)
+			
+	var selection = lines.pick_random()
+	
+	for line : BlockLine in BlockLines.get_children():
+		line.chosen_last = false
+	selection.chosen_last = true
+	
+	return selection
 
 func gain_powerup(powerup : PlayerPowerup):
 	var powerup_ui = UI.add_powerup(powerup.powerup_data.sprite)
 	powerup.powerup_ui = powerup_ui
 
 func block_broken(block : Collectible, powerup_active : bool):
+	blocks_required -= 1
+	UI.update_blocks_required(blocks_required)
+	if blocks_required == 0:
+		level_up()
+	
 	var points : int = points_per_block
 	if !powerup_active:
 		blocks_broken += 1
@@ -143,6 +173,14 @@ func block_broken(block : Collectible, powerup_active : bool):
 	add_child(new_popup)
 	new_popup.global_position = block.global_position
 	new_popup.set_points(points)
+
+func level_up():
+	blocks_required = initial_blocks_required + (blocks_required_increment * level)
+	UI.update_blocks_required(blocks_required)
+	BlockTimer.wait_time = min(initial_timer - (timer_decrement * level), minimum_time)
+	level += 1
+	UI.update_level(level)
+	pass
 
 func reset_score_multiplier(_player : Player):
 	powerup_chance += blocks_broken * powerup_chance_increment

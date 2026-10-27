@@ -252,14 +252,16 @@ func _on_body_entered(body):
 	
 	if body is Block:
 		# If it is the same color, destroy the block and increment the score multiplier.
-		if body.color == color or break_all_blocks == true:
+		var block_color = body.color
+		if block_color == color or break_all_blocks == true:
 			s_block_destroyed.emit(body, break_all_blocks)
 			body.destroy()
 		# If it's not the same color, change the player's color to that block's color.
 		else:
 			var prev_color = color
-			change_color(target_block.color)
-			target_block.change_color(prev_color)
+			change_color(block_color)
+			if target_block:
+				target_block.change_color(prev_color)
 	# If we collide with a powerup, add it to the list of powerups.
 	if body is Powerup:
 		gain_powerup(body.powerup_data)

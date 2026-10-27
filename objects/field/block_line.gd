@@ -7,6 +7,7 @@ class_name BlockLine extends Node2D
 @export var direction : Vector2
 @export var tile_size : int = 16
 
+var chosen_last : bool = false
 var field : Field
 var collectibles : Array[Collectible]
 
