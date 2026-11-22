@@ -4,7 +4,7 @@ class_name Collectible extends CharacterBody2D
 @onready var Collision = $CollisionShape2D
 
 @export var score_popup : PackedScene
-@export var speed : float = 20
+@export var speed : float = 30
 
 var line : BlockLine = null
 var next_position : Vector2

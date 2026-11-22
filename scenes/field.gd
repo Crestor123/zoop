@@ -6,6 +6,8 @@ class_name Field extends Node2D
 @onready var PlayerArea = $PlayerArea
 @onready var BlockTimer = $BlockTimer
 @onready var UI : FieldUI = $CanvasLayer/FieldUI
+@onready var Camera = $Camera2D
+@onready var Audio = $AudioStreamPlayer2D
 
 @export var tile_size : int = 16
 @export var block_line_object : PackedScene
@@ -89,6 +91,7 @@ func initialize_player():
 	var x_size = Background.get_used_rect().size.x * tile_size
 	var y_size = Background.get_used_rect().size.y * tile_size
 	
+	PlayerShip.clear_input_buffer()
 	PlayerShip.active = true
 	PlayerShip.position = Vector2(x_size / 2 - half_tile, y_size / 2 - half_tile)
 
@@ -154,24 +157,34 @@ func select_random_line() -> BlockLine:
 
 func gain_powerup(powerup : PlayerPowerup):
 	var powerup_ui = UI.add_powerup(powerup.powerup_data.sprite)
+	Audio.play_bonus()
 	powerup.powerup_ui = powerup_ui
 
 func block_broken(block : Collectible, powerup_active : bool):
+	var line = block.line
+	
+	Camera.add_trauma(0.3)
+	Audio.adjust_pitch(blocks_broken)
+	Audio.play_explosion()
+	
 	blocks_required -= 1
 	UI.update_blocks_required(blocks_required)
 	if blocks_required == 0:
 		level_up()
 	
+	blocks_broken += 1
 	var points : int = points_per_block
 	if !powerup_active:
-		blocks_broken += 1
 		score_multiplier += 1
 		points = points_per_block * score_multiplier
 	gain_points(points)
 	
 	var new_popup : ScorePopup = score_popup_object.instantiate()
 	add_child(new_popup)
-	new_popup.global_position = block.global_position
+	if line.direction == Vector2.LEFT:
+		new_popup.global_position = block.global_position - Vector2(48, 0)
+	else: 
+		new_popup.global_position = block.global_position
 	new_popup.set_points(points)
 
 func level_up():
@@ -195,6 +208,7 @@ func gain_points(points : int) -> int:
 
 func game_over():
 	block_timer_active = false
+	Audio.play_gameover()
 	PlayerShip.game_over()
 	
 	s_game_over.emit(score)

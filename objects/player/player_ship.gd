@@ -1,10 +1,14 @@
 class_name Player extends Area2D
 
+@onready var Controller = $Controller
+@onready var TouchController = $TouchscreenController
+@onready var TouchscreenControls = $TouchControlAnchor/TouchScreenControls
 @onready var CollisionRay = $CollisionRay
 @onready var DashRay = $DashRay
 @onready var Sprite = $Sprite2D
 @onready var ColorComp = $ColorComponent
 @onready var Powerups = $Powerups
+@onready var Afterimages = $Afterimages
 
 @export var powerup_object : PackedScene
 @export var color : Game.BlockColor
@@ -24,6 +28,7 @@ enum State {
 	DASH,
 }
 
+var current_controller : PlayerController
 var input_buffer : Array[Vector2] = [Vector2.ZERO]
 var buffered_dash : bool = false
 var current_input : Vector2
@@ -32,13 +37,6 @@ var current_direction : Vector2
 var break_all_blocks : bool = false
 var current_powerup : PlayerPowerup
 var next_powerup_index : int = -1
-
-var inputs = {
-	"up" : 		Vector2.UP,
-	"down" : 	Vector2.DOWN,
-	"left" : 	Vector2.LEFT,
-	"right" : 	Vector2.RIGHT
-}
 
 var active : bool = true
 var target_block : Collectible
@@ -50,31 +48,19 @@ func _ready():
 	# Set the player's position to be grid-aligned
 	position = position.snapped(Vector2.ONE * stride)
 	position += Vector2.ONE * stride / 2
+	
+	current_controller = TouchController
+	
+	TouchscreenControls.connect_signals(TouchController)
+	
+	Controller.dash.connect(dash)
+	Controller.powerup.connect(cycle_powerup)
+	TouchController.dash.connect(dash)
+	TouchController.powerup.connect(cycle_powerup)
+	TouchController.set_dir.connect(set_direction)
 
 func _process(delta):
-	if active == false: return
-	
-	# If we're not dashing, we can select the powerup we want to use
-	if cur_state != State.DASH:
-		if Input.is_action_just_pressed("cycle_powerup"):
-			cycle_powerup()
-	
-	if Input.is_action_just_pressed("dash") or buffered_dash == true:
-		if current_powerup != null:
-			use_powerup()
-		else:
-			check_target()
-			dash()
-	
-	# Loop through the inputs array and check each direction for movement
-	# Add the input directions to the buffer
-	for dir in inputs.keys():
-		if Input.is_action_just_pressed(dir):
-			#move(inputs[dir])
-			input_buffer.append(inputs[dir])
-	for dir in inputs.keys():
-		if Input.is_action_just_released(dir):
-			input_buffer.erase(inputs[dir])
+	input_buffer = current_controller.get_inputs()
 	
 	# Select the current input from the buffer
 	# If we're idling, we can initiate a move
@@ -89,6 +75,9 @@ func clear_input_buffer():
 
 ## Selects an available powerup from the player's list of powerups.
 func cycle_powerup():
+	if cur_state == State.DASH or active == false:
+		return
+	
 	var num_powerups = Powerups.get_child_count()
 	if num_powerups == 0: return
 	
@@ -114,6 +103,15 @@ func cycle_powerup():
 ## Changes state to the dash state.
 func dash():
 	# Only initiate a dash if we're not moving
+	if active == false:
+		return
+	
+	if current_powerup != null:
+		use_powerup()
+		return
+		
+	check_target()
+	
 	if cur_state != State.IDLE: 
 		buffered_dash = true
 		return
@@ -184,10 +182,19 @@ func finished_use_powerup():
 	
 	next_powerup_index = -1
 
+func set_direction(dir : Vector2):
+	if active == false: return
+	
+	Sprite.rotation = dir.angle() + deg_to_rad(90)
+	current_direction = dir
+
+
 ## Moves the player in a given direction, and rotates the player to face that direction.
 ## Changes state to move.
 ## dir : The direction to move.
 func move(dir : Vector2):
+	if active == false: return
+	
 	Sprite.rotation = dir.angle() + deg_to_rad(90)
 	current_direction = dir
 	

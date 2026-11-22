@@ -8,6 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://ofsa343wlks6" path="res://objects/field/player_area.tscn" id="4_7156t"]
 [ext_resource type="Texture2D" uid="uid://cb5btl1eslxl4" path="res://assets/zoop-ship-2.png" id="4_tcubs"]
 [ext_resource type="PackedScene" uid="uid://cpxtcaeflpuxd" path="res://scenes/field_ui.tscn" id="5_pn4dk"]
+[ext_resource type="Script" uid="uid://cvhiaxs11r5ir" path="res://scenes/field_camera.gd" id="9_aaam2"]
+[ext_resource type="AudioStream" uid="uid://dbgsosxomgt65" path="res://assets/audio/lumora_studios-pixel-explosion-319166.mp3" id="10_5qjf2"]
+[ext_resource type="Script" uid="uid://q67a2dgkqlcp" path="res://scenes/field_audio.gd" id="11_mwwu5"]
+[ext_resource type="AudioStream" uid="uid://2gxa3mbpjl6f" path="res://assets/audio/chisper-8-bit-bonus-pickup-634754.mp3" id="12_35llp"]
+[ext_resource type="AudioStream" uid="uid://dcn63vqnevvkx" path="res://assets/audio/lumora_studios-pixel-game-over-319170.mp3" id="13_7bjmq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ttalb"]
 texture = ExtResource("1_6pmjc")
@@ -72,5 +77,17 @@ position = Vector2(16, 16)
 [node name="BlockTimer" type="Timer" parent="." unique_id=934846963]
 process_mode = 1
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=820721713]
+position = Vector2(144, 96)
+script = ExtResource("9_aaam2")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=2000909686]
+stream = ExtResource("10_5qjf2")
+pitch_scale = 0.01
+script = ExtResource("11_mwwu5")
+sfx_explosion = ExtResource("10_5qjf2")
+sfx_bonus = ExtResource("12_35llp")
+sfx_gameover = ExtResource("13_7bjmq")
 
 [connection signal="timeout" from="BlockTimer" to="." method="_on_block_timer_timeout"]

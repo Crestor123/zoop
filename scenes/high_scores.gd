@@ -15,8 +15,8 @@ func check_score(score : int) -> bool:
 	if high_scores.size() < score_count:
 		return true
 		
-	for score_name in high_scores:
-		var score_value = high_scores[score_name]
+	for score_i : HighScoreData in high_scores:
+		var score_value = score_i.score
 		if score > score_value: return true
 		
 	return false

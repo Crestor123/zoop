@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c53i6y013frb7"]
+
+[ext_resource type="Script" uid="uid://csqp114ldxh7k" path="res://scenes/touch_screen_controls.gd" id="1_45nwv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mywy5"]
+size = Vector2(544, 544)
+
+[node name="TouchScreenControls" type="Control" unique_id=1952185707]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+script = ExtResource("1_45nwv")
+
+[node name="Up" type="TouchScreenButton" parent="." unique_id=735003696]
+position = Vector2(576, 0)
+rotation = 0.7853982
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_mywy5")
+passby_press = true
+
+[node name="Down" type="TouchScreenButton" parent="." unique_id=793957653]
+position = Vector2(576, 768)
+rotation = 0.7853982
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_mywy5")
+passby_press = true
+
+[node name="Left" type="TouchScreenButton" parent="." unique_id=965502000]
+position = Vector2(192.00003, 384.00003)
+rotation = 0.7853982
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_mywy5")
+passby_press = true
+
+[node name="Right" type="TouchScreenButton" parent="." unique_id=434150904]
+position = Vector2(961, 382.99997)
+rotation = 0.7853982
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_mywy5")
+passby_press = true
+
+[connection signal="pressed" from="Up" to="." method="_on_up_pressed"]
+[connection signal="released" from="Up" to="." method="_on_up_released"]
+[connection signal="pressed" from="Down" to="." method="_on_down_pressed"]
+[connection signal="released" from="Down" to="." method="_on_down_released"]
+[connection signal="pressed" from="Left" to="." method="_on_left_pressed"]
+[connection signal="released" from="Left" to="." method="_on_left_released"]
+[connection signal="pressed" from="Right" to="." method="_on_right_pressed"]
+[connection signal="released" from="Right" to="." method="_on_right_released"]

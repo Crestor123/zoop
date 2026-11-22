@@ -164,6 +164,7 @@ text = "Game Over"
 label_settings = SubResource("LabelSettings_gxfca")
 
 [node name="NewHighScoreMenu" type="VBoxContainer" parent="GameOverMenu/PanelContainer/VBoxContainer" unique_id=1193563039]
+visible = false
 layout_mode = 2
 
 [node name="NewHighScore" type="Label" parent="GameOverMenu/PanelContainer/VBoxContainer/NewHighScoreMenu" unique_id=1345982203]

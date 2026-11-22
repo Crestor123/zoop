@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://csvfmfr5q7lnr" path="res://objects/player/player_powerup.tscn" id="2_t1vf4"]
 [ext_resource type="PackedScene" uid="uid://0v57e6ojg36b" path="res://objects/field/color_component.tscn" id="3_e37u2"]
 [ext_resource type="Texture2D" uid="uid://ddiea1560ol46" path="res://assets/palettes/zoop-red-palette.png" id="4_tgrec"]
+[ext_resource type="PackedScene" uid="uid://pvesepqcs6n8" path="res://objects/player/controller.tscn" id="7_5uoij"]
+[ext_resource type="Script" uid="uid://durw8vnugetke" path="res://objects/player/touchscreen_controller.gd" id="8_jvysh"]
+[ext_resource type="PackedScene" uid="uid://c53i6y013frb7" path="res://scenes/touch_screen_controls.tscn" id="9_1oib4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kx2u2"]
 resource_local_to_scene = true
@@ -48,5 +51,40 @@ collision_mask = 2
 Sprite = NodePath("../Sprite2D")
 
 [node name="Powerups" type="Node" parent="." unique_id=1125657941]
+
+[node name="Afterimages" type="Node2D" parent="." unique_id=1052222104]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Afterimages" unique_id=1934106813]
+process_mode = 1
+material = SubResource("ShaderMaterial_kx2u2")
+texture = ExtResource("2_e37u2")
+region_enabled = true
+region_rect = Rect2(0, 16, 16, 16)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Afterimages" unique_id=1015374957]
+process_mode = 1
+material = SubResource("ShaderMaterial_kx2u2")
+texture = ExtResource("2_e37u2")
+region_enabled = true
+region_rect = Rect2(0, 16, 16, 16)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Afterimages" unique_id=1244604699]
+process_mode = 1
+material = SubResource("ShaderMaterial_kx2u2")
+texture = ExtResource("2_e37u2")
+region_enabled = true
+region_rect = Rect2(0, 16, 16, 16)
+
+[node name="Controller" parent="." unique_id=1725016873 instance=ExtResource("7_5uoij")]
+
+[node name="TouchscreenController" type="Node" parent="." unique_id=176480213]
+script = ExtResource("8_jvysh")
+
+[node name="TouchControlAnchor" type="Node2D" parent="." unique_id=526030713]
+position = Vector2(-576, -384)
+
+[node name="TouchScreenControls" parent="TouchControlAnchor" unique_id=1952185707 instance=ExtResource("9_1oib4")]
+z_index = 4
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
