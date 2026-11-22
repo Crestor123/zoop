@@ -13,8 +13,9 @@ var inputs = {
 }
 
 
-func _process(delta):
+func _input(event):
 	if Input.is_action_just_pressed("cycle_powerup"):
+		print("powerup pressed")
 		powerup.emit()
 			
 	if Input.is_action_just_pressed("dash"):

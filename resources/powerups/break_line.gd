@@ -8,7 +8,7 @@ func activate(player : Player):
 	player.target_block = cur_target.line.get_back_block()
 	player.break_all_blocks = true
 	player.s_finished_dash.connect(cleanup)
-	player.dash()
+	player.initiate_dash()
 
 func cleanup(player : Player):
 	player.s_finished_dash.disconnect(cleanup)

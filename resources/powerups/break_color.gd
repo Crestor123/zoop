@@ -13,7 +13,7 @@ func activate(player : Player):
 	player.s_finished_forward_dash.connect(break_blocks)
 	player.s_finished_dash.connect(cleanup)
 	player.break_all_blocks = true
-	player.dash()
+	player.initiate_dash()
 
 func break_blocks(player : Player):
 	for line : BlockLine in field.BlockLines.get_children():

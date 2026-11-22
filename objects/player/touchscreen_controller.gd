@@ -2,6 +2,9 @@ class_name TouchscreenController extends PlayerController
 
 signal set_dir
 
+func _input(event):
+	pass
+
 func dash_pressed():
 	dash.emit()
 	

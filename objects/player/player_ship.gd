@@ -49,7 +49,7 @@ func _ready():
 	position = position.snapped(Vector2.ONE * stride)
 	position += Vector2.ONE * stride / 2
 	
-	current_controller = TouchController
+	current_controller = Controller
 	
 	TouchscreenControls.connect_signals(TouchController)
 	
@@ -75,6 +75,7 @@ func clear_input_buffer():
 
 ## Selects an available powerup from the player's list of powerups.
 func cycle_powerup():
+	print("powerup")
 	if cur_state == State.DASH or active == false:
 		return
 	
@@ -107,11 +108,14 @@ func dash():
 		return
 	
 	if current_powerup != null:
+		print("using powerup")
 		use_powerup()
-		return
-		
-	check_target()
+	else:
+		check_target()
+		initiate_dash()
 	
+	
+func initiate_dash():
 	if cur_state != State.IDLE: 
 		buffered_dash = true
 		return
@@ -236,7 +240,7 @@ func finished_move():
 func change_color(new_color : Game.BlockColor):
 	color = new_color
 	ColorComp.set_color(color)
-	print(color)
+	#print(color)
 
 ## Add a powerup to the player's list of powerups.
 ## powerup_data : The PowerupData of the powerup to add.
